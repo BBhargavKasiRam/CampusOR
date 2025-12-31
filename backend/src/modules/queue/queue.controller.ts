@@ -13,6 +13,13 @@ export async function createQueue(req: Request, res: Response) {
         error: "Queue name is required",
       });
     }
+    const exists = await Queue.findOne({name:name});
+    if(exists){
+      return res.status(400).json({
+        success:false,
+        error:"Queue is already there"
+      })
+    }
 
     const queue = await Queue.create({ name });
 
